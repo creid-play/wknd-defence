@@ -15,11 +15,14 @@
 FROM cypress/included:13.14.1
 
 ENV APP_PATH /usr/src/app
-RUN apt -qqy update \
-    # Generic dependencies
-    && apt -qqy --no-install-recommends install \
-    curl \
-    build-essential
+RUN rm -f /etc/apt/sources.list.d/microsoft-edge.list \
+          /etc/apt/sources.list.d/microsoft-edge-stable.list \
+          /etc/apt/sources.list.d/google-chrome.list \
+ && apt-get update \
+ && apt-get install -y --no-install-recommends \
+      curl \
+      build-essential \
+ && rm -rf /var/lib/apt/lists/*
 
 # Set Application Environment
 WORKDIR ${APP_PATH}
